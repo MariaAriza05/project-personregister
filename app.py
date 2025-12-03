@@ -1,9 +1,13 @@
 import sqlite3
 import os
+from faker import Faker
 
-def init_database():
-    """Initialize the database and create user table"""
+fake = Faker("sv_SE")  # svenska namn
+
+def init_database(num_users=5):
+    """Initialize the database and create user table, then seed with Faker users."""
     db_path = os.getenv('DATABASE_PATH','data/test_users.db')
+    os.makedirs(os.path.dirname(db_path), exist_ok=True)
     conn = sqlite3.connect (db_path)
     cursor = conn.cursor()
 
@@ -21,14 +25,10 @@ def init_database():
     count = cursor.fetchone()[0]
 
     if count == 0:
-        # Insert test users only if table is empty
-        test_users = [
-            ('Anna Andersson', 'anna@test.se'),
-            ('Bo Bengtsson', 'bo@test.se')
-        ]
-
-        cursor.executemany('INSERT INTO users (name, email) VALUES (?, ?)', test_users)
-        print("Database initialized with test users")
+        # Skapa syntetiska användare med Faker
+        fake_users = [(fake.name(), fake.email()) for _ in range(5)]
+        cursor.executemany('INSERT INTO users (name, email) VALUES (?, ?)', fake_users)
+        print("Database initialized with synthetic users (GDPR compliant)")
 
     else:
         print(f"Database already contains {count} users")
@@ -58,7 +58,12 @@ def clear_test_data():
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
+    # Tar bort alla användare
     cursor.execute('DELETE FROM users')
+
+    # Nollställ autoincrement
+    cursor.execute('DELETE FROM sqlite_sequence WHERE name="users"')
+    
     conn.commit()
     conn.close()
     print("All test data has been cleared (GDPR compliant)")
@@ -75,7 +80,7 @@ def anonymize_data():
     print("All user names have been anonymized (GDPR compliant)")
 
 if __name__ == "__main__":
-    init_database()
+    init_database(num_users=10)
     display_users()
 
     # Keep the container running for testing
