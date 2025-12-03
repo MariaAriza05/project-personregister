@@ -3,7 +3,7 @@ import os
 
 def init_database():
     """Initialize the database and create user table"""
-    db_path = os.getenv('DATABASE_PATH','/data/test_users.db')
+    db_path = os.getenv('DATABASE_PATH','data/test_users.db')
     conn = sqlite3.connect (db_path)
     cursor = conn.cursor()
 
@@ -38,7 +38,7 @@ def init_database():
 
 def display_users():
     """Display all users in the database"""
-    db_path = os.getenv('DATABASE_PATH','/data/test_users.db')
+    db_path = os.getenv('DATABASE_PATH','data/test_users.db')
     conn = sqlite3.connect (db_path)
     cursor = conn.cursor()
     
@@ -54,7 +54,7 @@ def display_users():
 
 def clear_test_data():
     """GDPR Action 1: Clear all test data"""
-    db_path = os.getenv('DATABASE_PATH','/data/test_users.db')
+    db_path = os.getenv('DATABASE_PATH','data/test_users.db')
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
@@ -65,7 +65,7 @@ def clear_test_data():
 
 def anonymize_data():
     """GDPR Action 2: Anonymize user data"""
-    db_path = os.getenv('DATABASE_PATH','/data/test_users.db')
+    db_path = os.getenv('DATABASE_PATH','data/test_users.db')
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
