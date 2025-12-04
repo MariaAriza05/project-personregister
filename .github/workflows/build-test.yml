@@ -1,21 +1,33 @@
-name: Build and Test
+name: Python application
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        
-        steps:
-        - uses: actions/checkout@v3
-            
-        - name: Set up Python
-          uses: actions/setup-python@v4  
-          with:
-                python-version: '3.9'
-            
-        - name: Test imports and syntax
-          run: |
-            python -c "import sqlite3, os; print('All imports successful')"
-            python -m py_compile app.py
-            echo "Code compilation successful"
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run app initialization
+      run: |
+        python -c "import app; app.clear_test_data(); app.init_database(10); app.display_users()"
+
+    - name: Run GDPR tests
+      run: |
+        python -c "import app; app.test_fake_users(10)"
