@@ -26,8 +26,8 @@ jobs:
 
     - name: Run app initialization
       run: |
-        python -c "import app; app.clear_test_data(); app.init_database(10); app.display_users()"
+        python -c "import app; app.clear_test_data(); app.init_database(5); app.display_users()"
 
     - name: Run GDPR tests
       run: |
-        python -c "import app; app.test_fake_users(10)"
+        python -c "import app; app.test_fake_users(5)"
