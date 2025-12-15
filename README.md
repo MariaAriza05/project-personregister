@@ -13,6 +13,16 @@ Ett enkelt system för att hantera testdata på ett GDPR-kompatibelt sätt.
 
 - Anonymisera användardata (GDPR åtgärd 2)
 
+## Validering av testdata
+
+Projektet innehåller en funktion `test_fake_users()` som kan användas för att validera att den genererade testdatan är korrekt. Funktionen kontrollerar:
+
+- att rätt antal användare har skapats
+- att alla e‑postadresser är syntetiska
+- att inga obligatoriska fält är tomma
+
+Detta är ett manuellt valideringssteg som säkerställer
+att testmiljön följer GDPR‑krav.
 
 ## Installation och körning
 
@@ -29,6 +39,6 @@ Ett enkelt system för att hantera testdata på ett GDPR-kompatibelt sätt.
 
 ```bash
 
-git clone <your-repo-url>
+git clone <https://github.com/MariaAriza05/project-personregister>
 
 cd project-personregister
